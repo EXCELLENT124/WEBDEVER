@@ -1,0 +1,386 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Pricing - SOFTWAP{% endblock %}
+{% block meta_description %}View our transparent pricing for website development in South Africa. Website packages from R2,500. Get a custom quote today.{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="page-header-logo">
+            <img src="{% static 'images/logo3.png' %}" alt="SOFTWAP" height="100">
+        </div>
+        <h1 class="page-title">Our Pricing</h1>
+        <nav class="breadcrumb">
+            <a href="{% url 'home' %}">Home</a>
+            <span>/</span>
+            <span>Pricing</span>
+        </nav>
+    </div>
+</section>
+
+<!-- Website Types Pricing -->
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">Website Development</span>
+            <h2 class="section-title">Website Type Pricing</h2>
+            <p class="section-description">
+                Choose the website type that best fits your business needs
+            </p>
+        </div>
+        
+        <div class="pricing-table-wrapper">
+            <table class="pricing-table">
+                <thead>
+                    <tr>
+                        <th>Website Type</th>
+                        <th>Price Range</th>
+                        <th>Timeline</th>
+                        <th>Key Features</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- One Page Website -->
+                    <tr>
+                        <td class="pricing-name">
+                            <i class="fas fa-file-alt"></i>
+                            <div>
+                                <strong>One Page Website</strong>
+                                <small>Perfect for simple presence</small>
+                            </div>
+                        </td>
+                        <td class="pricing-price">R2,500 - R4,500</td>
+                        <td class="pricing-time"><i class="fas fa-clock"></i> 3-7 days</td>
+                        <td class="pricing-features">
+                            <ul>
+                                <li>Single scrolling page</li>
+                                <li>Mobile responsive</li>
+                                <li>Contact form</li>
+                                <li>Social links</li>
+                            </ul>
+                        </td>
+                        <td><a href="{% url 'apply' %}" class="btn btn-primary btn-sm">Apply</a></td>
+                    </tr>
+                    
+                    <!-- Business Website -->
+                    <tr>
+                        <td class="pricing-name">
+                            <i class="fas fa-building"></i>
+                            <div>
+                                <strong>Business Website</strong>
+                                <small>Multi-page professional site</small>
+                            </div>
+                        </td>
+                        <td class="pricing-price">R4,000 - R8,000</td>
+                        <td class="pricing-time"><i class="fas fa-clock"></i> 2-4 weeks</td>
+                        <td class="pricing-features">
+                            <ul>
+                                <li>Up to 10 pages</li>
+                                <li>SEO optimized</li>
+                                <li>Contact forms</li>
+                                <li>Google Maps</li>
+                            </ul>
+                        </td>
+                        <td><a href="{% url 'apply' %}" class="btn btn-primary btn-sm">Apply</a></td>
+                    </tr>
+                    
+                    <!-- Portfolio Website -->
+                    <tr>
+                        <td class="pricing-name">
+                            <i class="fas fa-paint-brush"></i>
+                            <div>
+                                <strong>Portfolio Website</strong>
+                                <small>Showcase your work</small>
+                            </div>
+                        </td>
+                        <td class="pricing-price">R3,500 - R6,000</td>
+                        <td class="pricing-time"><i class="fas fa-clock"></i> 2-3 weeks</td>
+                        <td class="pricing-features">
+                            <ul>
+                                <li>Image galleries</li>
+                                <li>Project showcase</li>
+                                <li>Lightbox viewer</li>
+                                <li>Client testimonials</li>
+                            </ul>
+                        </td>
+                        <td><a href="{% url 'apply' %}" class="btn btn-primary btn-sm">Apply</a></td>
+                    </tr>
+                    
+                    <!-- E-commerce Website -->
+                    <tr class="popular">
+                        <td class="pricing-name">
+                            <div class="popular-badge">POPULAR</div>
+                            <i class="fas fa-shopping-cart"></i>
+                            <div>
+                                <strong>E-commerce Website</strong>
+                                <small>Full online store</small>
+                            </div>
+                        </td>
+                        <td class="pricing-price">R10,000 - R25,000</td>
+                        <td class="pricing-time"><i class="fas fa-clock"></i> 4-8 weeks</td>
+                        <td class="pricing-features">
+                            <ul>
+                                <li>Unlimited products</li>
+                                <li>Payment gateway</li>
+                                <li>Inventory management</li>
+                                <li>Order tracking</li>
+                            </ul>
+                        </td>
+                        <td><a href="{% url 'apply' %}" class="btn btn-primary btn-sm">Apply</a></td>
+                    </tr>
+                    
+                    <!-- Blog Website -->
+                    <tr>
+                        <td class="pricing-name">
+                            <i class="fas fa-blog"></i>
+                            <div>
+                                <strong>Blog/Content Website</strong>
+                                <small>Content publishing platform</small>
+                            </div>
+                        </td>
+                        <td class="pricing-price">R4,500 - R8,500</td>
+                        <td class="pricing-time"><i class="fas fa-clock"></i> 2-4 weeks</td>
+                        <td class="pricing-features">
+                            <ul>
+                                <li>Article management</li>
+                                <li>Categories & tags</li>
+                                <li>Social sharing</li>
+                                <li>Comments system</li>
+                            </ul>
+                        </td>
+                        <td><a href="{% url 'apply' %}" class="btn btn-primary btn-sm">Apply</a></td>
+                    </tr>
+                    
+                    <!-- Membership Website -->
+                    <tr>
+                        <td class="pricing-name">
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <strong>Membership Site</strong>
+                                <small>Subscription-based content</small>
+                            </div>
+                        </td>
+                        <td class="pricing-price">R8,000 - R20,000</td>
+                        <td class="pricing-time"><i class="fas fa-clock"></i> 4-6 weeks</td>
+                        <td class="pricing-features">
+                            <ul>
+                                <li>User registration</li>
+                                <li>Content protection</li>
+                                <li>Payment integration</li>
+                                <li>Member dashboard</li>
+                            </ul>
+                        </td>
+                        <td><a href="{% url 'apply' %}" class="btn btn-primary btn-sm">Apply</a></td>
+                    </tr>
+                    
+                    <!-- Real Estate -->
+                    <tr>
+                        <td class="pricing-name">
+                            <i class="fas fa-home"></i>
+                            <div>
+                                <strong>Real Estate Website</strong>
+                                <small>Property listings</small>
+                            </div>
+                        </td>
+                        <td class="pricing-price">R8,000 - R18,000</td>
+                        <td class="pricing-time"><i class="fas fa-clock"></i> 3-5 weeks</td>
+                        <td class="pricing-features">
+                            <ul>
+                                <li>Property listings</li>
+                                <li>Search & filter</li>
+                                <li>Agent profiles</li>
+                                <li>Booking viewings</li>
+                            </ul>
+                        </td>
+                        <td><a href="{% url 'apply' %}" class="btn btn-primary btn-sm">Apply</a></td>
+                    </tr>
+                    
+                    <!-- Restaurant -->
+                    <tr>
+                        <td class="pricing-name">
+                            <i class="fas fa-utensils"></i>
+                            <div>
+                                <strong>Restaurant Website</strong>
+                                <small>Food & dining</small>
+                            </div>
+                        </td>
+                        <td class="pricing-price">R5,000 - R12,000</td>
+                        <td class="pricing-time"><i class="fas fa-clock"></i> 2-4 weeks</td>
+                        <td class="pricing-features">
+                            <ul>
+                                <li>Online menu</li>
+                                <li>Table booking</li>
+                                <li>Order online</li>
+                                <li>Photo gallery</li>
+                            </ul>
+                        </td>
+                        <td><a href="{% url 'apply' %}" class="btn btn-primary btn-sm">Apply</a></td>
+                    </tr>
+                    
+                    <!-- Custom Web App -->
+                    <tr>
+                        <td class="pricing-name">
+                            <i class="fas fa-rocket"></i>
+                            <div>
+                                <strong>Custom Web Application</strong>
+                                <small>Bespoke solution</small>
+                            </div>
+                        </td>
+                        <td class="pricing-price">R15,000 - R50,000+</td>
+                        <td class="pricing-time"><i class="fas fa-clock"></i> Custom</td>
+                        <td class="pricing-features">
+                            <ul>
+                                <li>Custom functionality</li>
+                                <li>Database driven</li>
+                                <li>User management</li>
+                                <li>API integration</li>
+                            </ul>
+                        </td>
+                        <td><a href="{% url 'apply' %}" class="btn btn-primary btn-sm">Apply</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Additional Services Pricing -->
+<section class="section section-dark">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">Extras</span>
+            <h2 class="section-title">Additional Services</h2>
+            <p class="section-description">
+                Everything else you need to run your website successfully
+            </p>
+        </div>
+        
+        <div class="extras-grid">
+            <!-- Hosting -->
+            <div class="extra-card">
+                <div class="extra-icon"><i class="fas fa-server"></i></div>
+                <h3>Web Hosting</h3>
+                <div class="extra-price">R99 - R499<span>/month</span></div>
+                <ul class="extra-features">
+                    <li><i class="fas fa-check"></i> 99.9% uptime</li>
+                    <li><i class="fas fa-check"></i> SSD storage</li>
+                    <li><i class="fas fa-check"></i> Free backups</li>
+                    <li><i class="fas fa-check"></i> Email accounts</li>
+                </ul>
+                <a href="{% url 'apply' %}" class="btn btn-secondary btn-sm">Add to Plan</a>
+            </div>
+            
+            <!-- Domain -->
+            <div class="extra-card">
+                <div class="extra-icon"><i class="fas fa-globe"></i></div>
+                <h3>Domain Registration</h3>
+                <div class="extra-price">R150 - R250<span>/year</span></div>
+                <ul class="extra-features">
+                    <li><i class="fas fa-check"></i> .co.za domains</li>
+                    <li><i class="fas fa-check"></i> .com domains</li>
+                    <li><i class="fas fa-check"></i> DNS management</li>
+                    <li><i class="fas fa-check"></i> Domain privacy</li>
+                </ul>
+                <a href="{% url 'apply' %}" class="btn btn-secondary btn-sm">Add to Plan</a>
+            </div>
+            
+            <!-- SSL -->
+            <div class="extra-card">
+                <div class="extra-icon"><i class="fas fa-lock"></i></div>
+                <h3>SSL Certificate</h3>
+                <div class="extra-price">R299 - R899<span>/year</span></div>
+                <ul class="extra-features">
+                    <li><i class="fas fa-check"></i> HTTPS encryption</li>
+                    <li><i class="fas fa-check"></i> Security seal</li>
+                    <li><i class="fas fa-check"></i> SEO boost</li>
+                    <li><i class="fas fa-check"></i> Trust indicator</li>
+                </ul>
+                <a href="{% url 'apply' %}" class="btn btn-secondary btn-sm">Add to Plan</a>
+            </div>
+            
+            <!-- Maintenance -->
+            <div class="extra-card featured">
+                <div class="featured-tag">Recommended</div>
+                <div class="extra-icon"><i class="fas fa-tools"></i></div>
+                <h3>Maintenance</h3>
+                <div class="extra-price">R599 - R1,999<span>/month</span></div>
+                <ul class="extra-features">
+                    <li><i class="fas fa-check"></i> Regular updates</li>
+                    <li><i class="fas fa-check"></i> Security monitoring</li>
+                    <li><i class="fas fa-check"></i> Content updates</li>
+                    <li><i class="fas fa-check"></i> Technical support</li>
+                </ul>
+                <a href="{% url 'apply' %}" class="btn btn-primary btn-sm">Add to Plan</a>
+            </div>
+            
+            <!-- SEO -->
+            <div class="extra-card">
+                <div class="extra-icon"><i class="fas fa-search"></i></div>
+                <h3>SEO Optimization</h3>
+                <div class="extra-price">R1,500 - R5,000<span>/month</span></div>
+                <ul class="extra-features">
+                    <li><i class="fas fa-check"></i> Keyword research</li>
+                    <li><i class="fas fa-check"></i> On-page SEO</li>
+                    <li><i class="fas fa-check"></i> Monthly reports</li>
+                    <li><i class="fas fa-check"></i> Rank tracking</li>
+                </ul>
+                <a href="{% url 'apply' %}" class="btn btn-secondary btn-sm">Add to Plan</a>
+            </div>
+            
+            <!-- Content Writing -->
+            <div class="extra-card">
+                <div class="extra-icon"><i class="fas fa-pen-fancy"></i></div>
+                <h3>Content Writing</h3>
+                <div class="extra-price">R500 - R2,000<span>/page</span></div>
+                <ul class="extra-features">
+                    <li><i class="fas fa-check"></i> SEO optimized copy</li>
+                    <li><i class="fas fa-check"></i> Professional writing</li>
+                    <li><i class="fas fa-check"></i> Keyword integration</li>
+                    <li><i class="fas fa-check"></i> Proofreading</li>
+                </ul>
+                <a href="{% url 'apply' %}" class="btn btn-secondary btn-sm">Add to Plan</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing Notes -->
+<section class="section section-sm">
+    <div class="container">
+        <div class="pricing-notes">
+            <h3><i class="fas fa-info-circle"></i> Important Pricing Information</h3>
+            <ul>
+                <li>All prices are in South African Rand (ZAR) and include VAT</li>
+                <li>A 50% deposit is required to start work</li>
+                <li>Final price may vary based on specific requirements and features</li>
+                <li>Hosting and domain fees are recurring (monthly/yearly)</li>
+                <li>We offer payment plans for projects over R10,000</li>
+                <li>All websites come with 30 days of free support after launch</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section cta-section">
+    <div class="container">
+        <div class="cta-box">
+            <div class="cta-content">
+                <h2>Get a Custom Quote</h2>
+                <p>Every project is unique. Apply now and we'll provide a detailed quote tailored to your needs.</p>
+            </div>
+            <div class="cta-buttons">
+                <a href="{% url 'apply' %}" class="btn btn-primary btn-lg">
+                    <span>Apply Now</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="{% url 'contact' %}" class="btn btn-light btn-lg">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

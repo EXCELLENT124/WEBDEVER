@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Application Submitted - SOFTWAP{% endblock %}
+
+{% block content %}
+<!-- Success Section -->
+<section class="section section-lg success-section">
+    <div class="container">
+        <section class="page-header success-header">
+            <div class="container">
+                <div class="page-header-logo">
+                    <img src="{% static 'images/logo3.png' %}" alt="SOFTWAP" height="100">
+                </div>
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h1 class="page-title">Application Submitted!</h1>
+                <p class="success-message">
+                    Thank you, <strong>{{ application.first_name }}</strong>! Your website application has been received successfully.
+                </p>
+            </div>
+        </section>
+        <div class="success-card">
+            <div class="application-summary">
+                <h3>Application Summary</h3>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <span class="label">Project:</span>
+                        <span class="value">{{ application.project_title }}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Website Type:</span>
+                        <span class="value">{{ application.website_type.get_name_display }}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Estimated Price:</span>
+                        <span class="value price">{{ application.get_estimated_total_display }}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Status:</span>
+                        <span class="value status-badge status-{{ application.status }}">{{ application.get_status_display }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="next-steps">
+                <h3>What Happens Next?</h3>
+                <div class="steps-list">
+                    <div class="step">
+                        <div class="step-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="step-content">
+                            <h4>Confirmation Email</h4>
+                            <p>We've sent a confirmation to {{ application.email }}</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon"><i class="fas fa-search"></i></div>
+                        <div class="step-content">
+                            <h4>Review</h4>
+                            <p>Our team will review your application within 24-48 hours</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon"><i class="fas fa-comments"></i></div>
+                        <div class="step-content">
+                            <h4>Consultation</h4>
+                            <p>We'll contact you to discuss details and provide a quote</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="success-actions">
+                <a href="{% url 'home' %}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+                <a href="{% url 'pricing' %}" class="btn btn-outline btn-lg">
+                    <i class="fas fa-tags"></i> View Pricing
+                </a>
+            </div>
+            
+            <div class="reference-number">
+                <p>Your reference number: <strong>WD-{{ application.id|stringformat:"06d" }}</strong></p>
+                <small>Please keep this number for your records</small>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

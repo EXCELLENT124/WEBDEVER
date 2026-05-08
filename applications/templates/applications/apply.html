@@ -1,0 +1,437 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Apply for a Website - SOFTWAP{% endblock %}
+{% block meta_description %}Apply for professional website development. Fill out our simple form and get a custom quote for your website project.{% endblock %}
+
+{% block extra_css %}
+<style>
+    .price-calculator {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+        border-radius: var(--radius-lg);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(99, 102, 241, 0.2);
+    }
+    
+    .price-calculator h4 {
+        margin-bottom: 1rem;
+        color: var(--primary);
+    }
+    
+    .calculated-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--accent);
+    }
+    
+    .service-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        border-radius: var(--radius-md);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .service-checkbox:hover {
+        background: rgba(99, 102, 241, 0.05);
+    }
+    
+    .service-checkbox input {
+        width: 1.25rem;
+        height: 1.25rem;
+        cursor: pointer;
+    }
+    
+    .service-info {
+        flex: 1;
+    }
+    
+    .service-name {
+        font-weight: 500;
+        color: var(--text-primary);
+    }
+    
+    .service-price {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+    }
+    
+    .form-section-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid var(--border);
+        color: var(--text-primary);
+    }
+    
+    .checkbox-group {
+        display: grid;
+        gap: 0.5rem;
+    }
+    
+    .checkbox-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        border-radius: var(--radius-md);
+        transition: all 0.3s ease;
+    }
+    
+    .checkbox-item:hover {
+        background: rgba(99, 102, 241, 0.05);
+    }
+    
+    .checkbox-item input[type="checkbox"] {
+        width: 1.25rem;
+        height: 1.25rem;
+        cursor: pointer;
+    }
+    
+    .checkbox-item label {
+        margin: 0;
+        cursor: pointer;
+        font-weight: 500;
+    }
+    
+    .form-help {
+        display: block;
+        margin-top: 0.5rem;
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        font-style: italic;
+    }
+    
+    #id_website_type option {
+        padding: 0.5rem;
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+    }
+    
+    #id_website_type {
+        background: var(--bg-glass);
+        color: var(--text-primary);
+        border: 1px solid var(--border);
+    }
+    
+    #id_website_type:focus {
+        background: var(--bg-secondary);
+        border-color: var(--primary);
+        outline: none;
+    }
+    
+    .page-header-logo {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .page-header-logo img {
+        height: 120px;
+        width: auto;
+        max-width: 350px;
+        object-fit: contain;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="page-header-logo">
+            <img src="{% static 'images/logo3.png' %}" alt="SOFTWAP" height="120">
+        </div>
+        <h1 class="page-title">Apply for a Website</h1>
+        <nav class="breadcrumb">
+            <a href="{% url 'home' %}">Home</a>
+            <span>/</span>
+            <span>Apply</span>
+        </nav>
+    </div>
+</section>
+
+<!-- Application Form -->
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">Start Your Project</span>
+            <h2 class="section-title">Tell Us About Your Website</h2>
+            <p class="section-description">
+                Fill out the form below and we'll get back to you within 24-48 hours with a detailed quote
+            </p>
+        </div>
+        
+        <div class="application-form-wrapper">
+            <!-- Live Price Calculator -->
+            <div class="price-calculator" id="price-calculator">
+                <h4><i class="fas fa-calculator"></i> Estimated Price</h4>
+                <p class="calculated-price" id="calculated-price">Select a website type to see estimate</p>
+                <p class="text-sm text-muted">Final price may vary based on specific requirements</p>
+            </div>
+            
+            <form method="post" class="application-form" id="application-form">
+                {% csrf_token %}
+                
+                <!-- Personal Information -->
+                <div class="form-section">
+                    <h3 class="form-section-title"><i class="fas fa-user"></i> Personal Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            {{ form.first_name.label_tag }}
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                            <div class="form-error">{{ form.first_name.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.last_name.label_tag }}
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                            <div class="form-error">{{ form.last_name.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            {{ form.email.label_tag }}
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                            <div class="form-error">{{ form.email.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.phone.label_tag }}
+                            {{ form.phone }}
+                            {% if form.phone.errors %}
+                            <div class="form-error">{{ form.phone.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.company_name.label_tag }}
+                        {{ form.company_name }}
+                        {% if form.company_name.errors %}
+                        <div class="form-error">{{ form.company_name.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Project Details -->
+                <div class="form-section">
+                    <h3 class="form-section-title"><i class="fas fa-briefcase"></i> Project Details</h3>
+                    <div class="form-group">
+                        {{ form.website_type.label_tag }}
+                        <select name="website_type" id="id_website_type" class="form-control form-select" required>
+                            <option value="" data-min="0" data-max="0">Select a website type...</option>
+                            {% for wt in website_types %}
+                            <option value="{{ wt.id }}" data-min="{{ wt.min_price }}" data-max="{{ wt.max_price }}">
+                                {{ wt.get_name_display }} - R{{ wt.min_price|intcomma }} to R{{ wt.max_price|intcomma }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <small class="form-help">Choose the type of website you need. Prices shown are estimates.</small>
+                        {% if form.website_type.errors %}
+                        <div class="form-error">{{ form.website_type.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.project_title.label_tag }}
+                        {{ form.project_title }}
+                        {% if form.project_title.errors %}
+                        <div class="form-error">{{ form.project_title.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.project_description.label_tag }}
+                        {{ form.project_description }}
+                        {% if form.project_description.errors %}
+                        <div class="form-error">{{ form.project_description.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Budget & Timeline -->
+                <div class="form-section">
+                    <h3 class="form-section-title"><i class="fas fa-money-bill-wave"></i> Budget & Timeline</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            {{ form.budget_range.label_tag }}
+                            {{ form.budget_range }}
+                            {% if form.budget_range.errors %}
+                            <div class="form-error">{{ form.budget_range.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.preferred_timeline.label_tag }}
+                            {{ form.preferred_timeline }}
+                            <small class="form-text">{{ form.preferred_timeline.help_text }}</small>
+                            {% if form.preferred_timeline.errors %}
+                            <div class="form-error">{{ form.preferred_timeline.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Additional Services -->
+                <div class="form-section">
+                    <h3 class="form-section-title"><i class="fas fa-plus-circle"></i> Additional Services (Optional)</h3>
+                    <div class="checkbox-group">
+                        {% for service in additional_services %}
+                        <div class="service-checkbox">
+                            <input type="checkbox" name="additional_services" value="{{ service.id }}" id="service_{{ service.id }}" class="service-checkbox-input">
+                            <div class="service-info">
+                                <label for="service_{{ service.id }}" class="service-name">{{ service.get_name_display }}</label>
+                                <span class="service-price">{{ service.get_price_display }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Design & Content -->
+                <div class="form-section">
+                    <h3 class="form-section-title"><i class="fas fa-paint-brush"></i> Design & Content</h3>
+                    <div class="form-group">
+                        {{ form.design_preferences.label_tag }}
+                        {{ form.design_preferences }}
+                        {% if form.design_preferences.errors %}
+                        <div class="form-error">{{ form.design_preferences.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            {{ form.has_logo }}
+                            <label for="id_has_logo">{{ form.has_logo.label }}</label>
+                        </div>
+                        <div class="checkbox-item">
+                            {{ form.has_content }}
+                            <label for="id_has_content">{{ form.has_content.label }}</label>
+                        </div>
+                        <div class="checkbox-item">
+                            {{ form.has_domain }}
+                            <label for="id_has_domain">{{ form.has_domain.label }}</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Features -->
+                <div class="form-section">
+                    <h3 class="form-section-title"><i class="fas fa-cogs"></i> Specific Features Needed</h3>
+                    <div class="form-group">
+                        {{ form.features_needed.label_tag }}
+                        {{ form.features_needed }}
+                        {% if form.features_needed.errors %}
+                        <div class="form-error">{{ form.features_needed.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Submit -->
+                <div class="form-section">
+                    <button type="submit" class="btn btn-primary btn-xl btn-full">
+                        <span>Submit Application</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                    <p class="form-note">
+                        <i class="fas fa-info-circle"></i> 
+                        By submitting this form, you agree to our terms of service. We'll contact you within 24-48 hours.
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+    // Price Calculator
+    const websiteTypeSelect = document.getElementById('id_website_type');
+    const calculatedPriceEl = document.getElementById('calculated-price');
+    const serviceCheckboxes = document.querySelectorAll('.service-checkbox-input');
+
+    const websitePrices = {};
+    {% for wt in website_types %}
+    websitePrices['{{ wt.id }}'] = { 
+        min: {{ wt.min_price }}, 
+        max: {{ wt.max_price }}, 
+        name: '{{ wt.get_name_display|escapejs }}' 
+    };
+    {% endfor %}
+
+    const servicePrices = {};
+    {% for service in additional_services %}
+    servicePrices['{{ service.id }}'] = {{ service.price }};
+    {% endfor %}
+
+    function updatePrice() {
+        const selectedType = websiteTypeSelect.value;
+        let baseMin = 0;
+        let baseMax = 0;
+        let typeName = 'Select a website type';
+        
+        if (selectedType && websitePrices[selectedType]) {
+            baseMin = websitePrices[selectedType].min;
+            baseMax = websitePrices[selectedType].max;
+            typeName = websitePrices[selectedType].name;
+        }
+        
+        let additionalTotal = 0;
+        serviceCheckboxes.forEach(function(checkbox) {
+            if (checkbox.checked && servicePrices[checkbox.value]) {
+                additionalTotal += servicePrices[checkbox.value];
+            }
+        });
+        
+        const totalMin = baseMin + additionalTotal;
+        const totalMax = baseMax + additionalTotal;
+        
+        if (selectedType) {
+            let html = '<strong>' + typeName + '</strong><br>';
+            html += 'Estimated: <span class="price-range">R' + totalMin.toLocaleString() + ' - R' + totalMax.toLocaleString() + '</span>';
+            if (additionalTotal > 0) {
+                html += '<br><small>(Includes R' + additionalTotal.toLocaleString() + ' in additional services)</small>';
+            }
+            calculatedPriceEl.innerHTML = html;
+        } else {
+            calculatedPriceEl.textContent = 'Select a website type to see estimate';
+        }
+    }
+
+    if (websiteTypeSelect) {
+        websiteTypeSelect.addEventListener('change', updatePrice);
+    }
+    
+    serviceCheckboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', updatePrice);
+    });
+
+    // Form validation
+    const form = document.getElementById('application-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            const websiteType = document.getElementById('id_website_type').value;
+            if (!websiteType) {
+                e.preventDefault();
+                alert('Please select a website type');
+                return false;
+            }
+        });
+    }
+})();
+</script>
+{% endblock %}

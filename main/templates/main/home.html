@@ -1,0 +1,383 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}SOFTWAP - Professional Website Development South Africa{% endblock %}
+
+{% block content %}
+<!-- Page Header with Logo -->
+<section class="page-header">
+    <div class="container">
+        <div class="page-header-logo">
+            <img src="{% static 'images/logo3.png' %}" alt="SOFTWAP" height="140">
+        </div>
+        <h1 class="page-title">Professional Website Development</h1>
+        <p class="page-subtitle">South Africa's leading web development company</p>
+    </div>
+</section>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-container">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-star"></i>
+                <span>South Africa's #1 Web Developer</span>
+            </div>
+            <h1 class="hero-title">
+                Get Your <span class="gradient-text">Professional Website</span>
+                <br>Built by Experts
+            </h1>
+            <p class="hero-description">
+                From R2,500 - We create stunning websites, e-commerce stores, and custom web applications 
+                tailored to your business needs. Fast delivery, affordable pricing, exceptional quality.
+            </p>
+            <div class="hero-buttons">
+                <a href="{% url 'apply' %}" class="btn btn-primary btn-lg">
+                    <span>Apply for Website</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="{% url 'pricing' %}" class="btn btn-outline btn-lg">
+                    <span>View Pricing</span>
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Websites Built</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">98%</span>
+                    <span class="stat-label">Happy Clients</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Support</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="floating-card card-1">
+                <i class="fas fa-shopping-cart"></i>
+                <span>E-commerce</span>
+            </div>
+            <div class="floating-card card-2">
+                <i class="fas fa-briefcase"></i>
+                <span>Business</span>
+            </div>
+            <div class="floating-card card-3">
+                <i class="fas fa-paint-brush"></i>
+                <span>Portfolio</span>
+            </div>
+            <div class="hero-illustration">
+                <div class="browser-mockup">
+                    <div class="browser-header">
+                        <div class="browser-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="browser-content">
+                        <div class="mockup-website">
+                            <div class="mockup-nav"></div>
+                            <div class="mockup-hero"></div>
+                            <div class="mockup-features">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="scroll-indicator">
+        <div class="mouse">
+            <div class="wheel"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Website Types Section -->
+<section class="section section-dark" id="website-types">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">What We Offer</span>
+            <h2 class="section-title">Website Types We Build</h2>
+            <p class="section-description">
+                Choose from our comprehensive range of website solutions designed to meet every business need
+            </p>
+        </div>
+        
+        <div class="website-types-grid">
+            {% for website_type in featured_website_types %}
+            <div class="website-type-card">
+                <div class="card-icon">
+                    <i class="fas fa-{{ website_type.icon }}"></i>
+                </div>
+                <h3 class="card-title">{{ website_type.get_name_display }}</h3>
+                <p class="card-description">{{ website_type.description|truncatewords:20 }}</p>
+                <div class="card-price">{{ website_type.get_price_range }}</div>
+                <div class="card-features">
+                    <ul>
+                        {% for feature in website_type.get_feature_list|slice:":3" %}
+                        <li><i class="fas fa-check"></i> {{ feature }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <a href="{% url 'website_type_detail' website_type.slug %}" class="btn btn-secondary btn-sm">
+                    Learn More
+                </a>
+            </div>
+            {% empty %}
+            <!-- Fallback content if no website types in database -->
+            <div class="website-type-card">
+                <div class="card-icon"><i class="fas fa-file-alt"></i></div>
+                <h3 class="card-title">One Page Website</h3>
+                <p class="card-description">Perfect for personal profiles, small businesses, or event promotions</p>
+                <div class="card-price">R2,500 - R4,500</div>
+                <ul class="card-features">
+                    <li><i class="fas fa-check"></i> Single scrolling page</li>
+                    <li><i class="fas fa-check"></i> Mobile responsive</li>
+                    <li><i class="fas fa-check"></i> Contact form included</li>
+                </ul>
+                <a href="{% url 'apply' %}" class="btn btn-secondary btn-sm">Apply Now</a>
+            </div>
+            
+            <div class="website-type-card">
+                <div class="card-icon"><i class="fas fa-building"></i></div>
+                <h3 class="card-title">Business Website</h3>
+                <p class="card-description">Professional multi-page website for established businesses</p>
+                <div class="card-price">R4,000 - R8,000</div>
+                <ul class="card-features">
+                    <li><i class="fas fa-check"></i> Up to 10 pages</li>
+                    <li><i class="fas fa-check"></i> SEO optimized</li>
+                    <li><i class="fas fa-check"></i> Google Maps integration</li>
+                </ul>
+                <a href="{% url 'apply' %}" class="btn btn-secondary btn-sm">Apply Now</a>
+            </div>
+            
+            <div class="website-type-card featured">
+                <div class="featured-badge">Popular</div>
+                <div class="card-icon"><i class="fas fa-shopping-cart"></i></div>
+                <h3 class="card-title">E-commerce Website</h3>
+                <p class="card-description">Full online store with payment processing and inventory management</p>
+                <div class="card-price">R10,000 - R25,000</div>
+                <ul class="card-features">
+                    <li><i class="fas fa-check"></i> Unlimited products</li>
+                    <li><i class="fas fa-check"></i> Secure payment gateway</li>
+                    <li><i class="fas fa-check"></i> Inventory management</li>
+                </ul>
+                <a href="{% url 'apply' %}" class="btn btn-primary btn-sm">Apply Now</a>
+            </div>
+            
+            <div class="website-type-card">
+                <div class="card-icon"><i class="fas fa-paint-brush"></i></div>
+                <h3 class="card-title">Portfolio Website</h3>
+                <p class="card-description">Showcase your work with stunning visual galleries</p>
+                <div class="card-price">R3,500 - R6,000</div>
+                <ul class="card-features">
+                    <li><i class="fas fa-check"></i> Image galleries</li>
+                    <li><i class="fas fa-check"></i> Project showcases</li>
+                    <li><i class="fas fa-check"></i> Client testimonials</li>
+                </ul>
+                <a href="{% url 'apply' %}" class="btn btn-secondary btn-sm">Apply Now</a>
+            </div>
+            
+            <div class="website-type-card">
+                <div class="card-icon"><i class="fas fa-blog"></i></div>
+                <h3 class="card-title">Blog/Content Website</h3>
+                <p class="card-description">Content-focused site with powerful publishing tools</p>
+                <div class="card-price">R4,500 - R8,500</div>
+                <ul class="card-features">
+                    <li><i class="fas fa-check"></i> Article management</li>
+                    <li><i class="fas fa-check"></i> Categories & tags</li>
+                    <li><i class="fas fa-check"></i> Social sharing</li>
+                </ul>
+                <a href="{% url 'apply' %}" class="btn btn-secondary btn-sm">Apply Now</a>
+            </div>
+            
+            <div class="website-type-card">
+                <div class="card-icon"><i class="fas fa-rocket"></i></div>
+                <h3 class="card-title">Custom Web Application</h3>
+                <p class="card-description">Bespoke web solutions tailored to your specific requirements</p>
+                <div class="card-price">R15,000 - R50,000+</div>
+                <ul class="card-features">
+                    <li><i class="fas fa-check"></i> Custom functionality</li>
+                    <li><i class="fas fa-check"></i> Database integration</li>
+                    <li><i class="fas fa-check"></i> User management</li>
+                </ul>
+                <a href="{% url 'apply' %}" class="btn btn-secondary btn-sm">Apply Now</a>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="section-cta">
+            <a href="{% url 'website_type_list' %}" class="btn btn-outline btn-lg">
+                <span>View All Website Types</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Additional Services Section -->
+<section class="section" id="additional-services">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">Complete Solutions</span>
+            <h2 class="section-title">Additional Services</h2>
+            <p class="section-description">
+                Everything you need to run your website successfully
+            </p>
+        </div>
+        
+        <div class="services-grid">
+            <div class="service-item">
+                <div class="service-icon"><i class="fas fa-server"></i></div>
+                <h4>Web Hosting</h4>
+                <p>Reliable hosting starting from R99/month</p>
+                <span class="service-price">R99 - R499/month</span>
+            </div>
+            
+            <div class="service-item">
+                <div class="service-icon"><i class="fas fa-globe"></i></div>
+                <h4>Domain Registration</h4>
+                <p>Secure your perfect domain name</p>
+                <span class="service-price">R150 - R250/year</span>
+            </div>
+            
+            <div class="service-item">
+                <div class="service-icon"><i class="fas fa-lock"></i></div>
+                <h4>SSL Certificate</h4>
+                <p>Secure your website with HTTPS</p>
+                <span class="service-price">R299 - R899/year</span>
+            </div>
+            
+            <div class="service-item">
+                <div class="service-icon"><i class="fas fa-tools"></i></div>
+                <h4>Maintenance</h4>
+                <p>Regular updates and support</p>
+                <span class="service-price">R599 - R1,999/month</span>
+            </div>
+            
+            <div class="service-item">
+                <div class="service-icon"><i class="fas fa-search"></i></div>
+                <h4>SEO Optimization</h4>
+                <p>Rank higher in search results</p>
+                <span class="service-price">R1,500 - R5,000/month</span>
+            </div>
+            
+            <div class="service-item">
+                <div class="service-icon"><i class="fas fa-pen-fancy"></i></div>
+                <h4>Content Writing</h4>
+                <p>Professional website copy</p>
+                <span class="service-price">R500 - R2,000/page</span>
+            </div>
+        </div>
+        
+        <div class="section-cta">
+            <a href="{% url 'additional_service_list' %}" class="btn btn-outline btn-lg">
+                <span>View All Services</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Process Section -->
+<section class="section section-gradient">
+    <div class="container">
+        <div class="section-header light">
+            <span class="section-badge">How It Works</span>
+            <h2 class="section-title">Simple 4-Step Process</h2>
+            <p class="section-description">
+                Getting your website built is easier than you think
+            </p>
+        </div>
+        
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <div class="step-icon"><i class="fas fa-file-alt"></i></div>
+                <h3>Apply</h3>
+                <p>Fill out our simple application form with your requirements</p>
+            </div>
+            
+            <div class="process-arrow"><i class="fas fa-chevron-right"></i></div>
+            
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <div class="step-icon"><i class="fas fa-comments"></i></div>
+                <h3>Consult</h3>
+                <p>We discuss your project and provide a detailed quote</p>
+            </div>
+            
+            <div class="process-arrow"><i class="fas fa-chevron-right"></i></div>
+            
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <div class="step-icon"><i class="fas fa-code"></i></div>
+                <h3>Build</h3>
+                <p>Our experts build your website with regular updates</p>
+            </div>
+            
+            <div class="process-arrow"><i class="fas fa-chevron-right"></i></div>
+            
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <div class="step-icon"><i class="fas fa-rocket"></i></div>
+                <h3>Launch</h3>
+                <p>Your website goes live with ongoing support</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section cta-section">
+    <div class="container">
+        <div class="cta-box">
+            <div class="cta-content">
+                <h2>Ready to Get Your Website?</h2>
+                <p>Join hundreds of satisfied South African businesses. Get started today!</p>
+            </div>
+            <div class="cta-buttons">
+                <a href="{% url 'apply' %}" class="btn btn-primary btn-lg">
+                    <span>Apply Now</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="{% url 'contact' %}" class="btn btn-light btn-lg">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trust Indicators Section -->
+<section class="section section-sm">
+    <div class="container">
+        <div class="trust-grid">
+            <div class="trust-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>Secure Payments</span>
+            </div>
+            <div class="trust-item">
+                <i class="fas fa-clock"></i>
+                <span>On-Time Delivery</span>
+            </div>
+            <div class="trust-item">
+                <i class="fas fa-headset"></i>
+                <span>24/7 Support</span>
+            </div>
+            <div class="trust-item">
+                <i class="fas fa-sync-alt"></i>
+                <span>Free Revisions</span>
+            </div>
+            <div class="trust-item">
+                <i class="fas fa-certificate"></i>
+                <span>Quality Guaranteed</span>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

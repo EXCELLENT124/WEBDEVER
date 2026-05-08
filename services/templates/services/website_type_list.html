@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Website Types - SOFTWAP{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="page-header-logo">
+            <img src="{% static 'images/logo3.png' %}" alt="SOFTWAP" height="100">
+        </div>
+        <h1 class="page-title">Website Types</h1>
+        <nav class="breadcrumb">
+            <a href="{% url 'home' %}">Home</a>
+            <span>/</span>
+            <span>Website Types</span>
+        </nav>
+    </div>
+</section>
+
+<!-- Website Types Grid -->
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">Choose Your Website</span>
+            <h2 class="section-title">What Type of Website Do You Need?</h2>
+            <p class="section-description">
+                Select the perfect website type for your business or project
+            </p>
+        </div>
+        
+        <div class="website-types-detailed">
+            <!-- One Page -->
+            <div class="type-detailed-card">
+                <div class="type-header">
+                    <div class="type-icon"><i class="fas fa-file-alt"></i></div>
+                    <div class="type-info">
+                        <h3>One Page Website</h3>
+                        <span class="type-price">R2,500 - R4,500</span>
+                    </div>
+                </div>
+                <p class="type-description">
+                    A single-page website that presents all your content in a scrolling format. Perfect for simple business presence, personal portfolios, or event promotions.
+                </p>
+                <div class="type-features">
+                    <h4>What's Included:</h4>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Single scrolling page design</li>
+                        <li><i class="fas fa-check"></i> Mobile responsive layout</li>
+                        <li><i class="fas fa-check"></i> Contact form integration</li>
+                        <li><i class="fas fa-check"></i> Social media links</li>
+                        <li><i class="fas fa-check"></i> Basic SEO setup</li>
+                        <li><i class="fas fa-check"></i> 3-7 days delivery</li>
+                    </ul>
+                </div>
+                <div class="type-ideal">
+                    <strong>Ideal for:</strong> Small businesses, personal profiles, landing pages, event sites
+                </div>
+                <a href="{% url 'apply' %}" class="btn btn-primary">Apply for This</a>
+            </div>
+            
+            <!-- Business -->
+            <div class="type-detailed-card">
+                <div class="type-header">
+                    <div class="type-icon"><i class="fas fa-building"></i></div>
+                    <div class="type-info">
+                        <h3>Business Website</h3>
+                        <span class="type-price">R4,000 - R8,000</span>
+                    </div>
+                </div>
+                <p class="type-description">
+                    A professional multi-page website for established businesses. Includes multiple sections, service pages, and all essential business features.
+                </p>
+                <div class="type-features">
+                    <h4>What's Included:</h4>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Up to 10 custom pages</li>
+                        <li><i class="fas fa-check"></i> SEO optimization</li>
+                        <li><i class="fas fa-check"></i> Contact forms with validation</li>
+                        <li><i class="fas fa-check"></i> Google Maps integration</li>
+                        <li><i class="fas fa-check"></i> Blog/News section</li>
+                        <li><i class="fas fa-check"></i> 2-4 weeks delivery</li>
+                    </ul>
+                </div>
+                <div class="type-ideal">
+                    <strong>Ideal for:</strong> Established businesses, professional services, agencies
+                </div>
+                <a href="{% url 'apply' %}" class="btn btn-primary">Apply for This</a>
+            </div>
+            
+            <!-- E-commerce -->
+            <div class="type-detailed-card featured">
+                <div class="featured-ribbon">Most Popular</div>
+                <div class="type-header">
+                    <div class="type-icon"><i class="fas fa-shopping-cart"></i></div>
+                    <div class="type-info">
+                        <h3>E-commerce Website</h3>
+                        <span class="type-price">R10,000 - R25,000</span>
+                    </div>
+                </div>
+                <p class="type-description">
+                    A complete online store with secure payment processing, inventory management, and customer accounts. Everything you need to sell online.
+                </p>
+                <div class="type-features">
+                    <h4>What's Included:</h4>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Unlimited product listings</li>
+                        <li><i class="fas fa-check"></i> Secure payment gateway</li>
+                        <li><i class="fas fa-check"></i> Inventory management</li>
+                        <li><i class="fas fa-check"></i> Customer accounts</li>
+                        <li><i class="fas fa-check"></i> Order tracking system</li>
+                        <li><i class="fas fa-check"></i> 4-8 weeks delivery</li>
+                    </ul>
+                </div>
+                <div class="type-ideal">
+                    <strong>Ideal for:</strong> Online stores, retail businesses, wholesalers
+                </div>
+                <a href="{% url 'apply' %}" class="btn btn-primary">Apply for This</a>
+            </div>
+            
+            <!-- Portfolio -->
+            <div class="type-detailed-card">
+                <div class="type-header">
+                    <div class="type-icon"><i class="fas fa-paint-brush"></i></div>
+                    <div class="type-info">
+                        <h3>Portfolio Website</h3>
+                        <span class="type-price">R3,500 - R6,000</span>
+                    </div>
+                </div>
+                <p class="type-description">
+                    Showcase your work with stunning visual galleries and project presentations. Perfect for creatives, photographers, and agencies.
+                </p>
+                <div class="type-features">
+                    <h4>What's Included:</h4>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Image galleries with lightbox</li>
+                        <li><i class="fas fa-check"></i> Project case studies</li>
+                        <li><i class="fas fa-check"></i> Before/after sliders</li>
+                        <li><i class="fas fa-check"></i> Client testimonials</li>
+                        <li><i class="fas fa-check"></i> Skills/services showcase</li>
+                        <li><i class="fas fa-check"></i> 2-3 weeks delivery</li>
+                    </ul>
+                </div>
+                <div class="type-ideal">
+                    <strong>Ideal for:</strong> Photographers, designers, artists, freelancers
+                </div>
+                <a href="{% url 'apply' %}" class="btn btn-primary">Apply for This</a>
+            </div>
+            
+            <!-- Blog -->
+            <div class="type-detailed-card">
+                <div class="type-header">
+                    <div class="type-icon"><i class="fas fa-blog"></i></div>
+                    <div class="type-info">
+                        <h3>Blog/Content Website</h3>
+                        <span class="type-price">R4,500 - R8,500</span>
+                    </div>
+                </div>
+                <p class="type-description">
+                    A content-focused platform with powerful publishing tools. Perfect for bloggers, news sites, and content creators.
+                </p>
+                <div class="type-features">
+                    <h4>What's Included:</h4>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Article management system</li>
+                        <li><i class="fas fa-check"></i> Categories & tags</li>
+                        <li><i class="fas fa-check"></i> Social sharing buttons</li>
+                        <li><i class="fas fa-check"></i> Comments system</li>
+                        <li><i class="fas fa-check"></i> Newsletter signup</li>
+                        <li><i class="fas fa-check"></i> 2-4 weeks delivery</li>
+                    </ul>
+                </div>
+                <div class="type-ideal">
+                    <strong>Ideal for:</strong> Bloggers, content creators, news sites, magazines
+                </div>
+                <a href="{% url 'apply' %}" class="btn btn-primary">Apply for This</a>
+            </div>
+            
+            <!-- Custom App -->
+            <div class="type-detailed-card">
+                <div class="type-header">
+                    <div class="type-icon"><i class="fas fa-rocket"></i></div>
+                    <div class="type-info">
+                        <h3>Custom Web Application</h3>
+                        <span class="type-price">R15,000 - R50,000+</span>
+                    </div>
+                </div>
+                <p class="type-description">
+                    Bespoke web solutions tailored to your specific requirements. Database-driven applications with custom functionality.
+                </p>
+                <div class="type-features">
+                    <h4>What's Included:</h4>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Custom functionality</li>
+                        <li><i class="fas fa-check"></i> Database integration</li>
+                        <li><i class="fas fa-check"></i> User management system</li>
+                        <li><i class="fas fa-check"></i> API integrations</li>
+                        <li><i class="fas fa-check"></i> Admin dashboard</li>
+                        <li><i class="fas fa-check"></i> Custom timeline</li>
+                    </ul>
+                </div>
+                <div class="type-ideal">
+                    <strong>Ideal for:</strong> SaaS products, booking systems, custom business tools
+                </div>
+                <a href="{% url 'apply' %}" class="btn btn-primary">Apply for This</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="section cta-section">
+    <div class="container">
+        <div class="cta-box">
+            <div class="cta-content">
+                <h2>Not Sure What You Need?</h2>
+                <p>Contact us for a free consultation and we'll help you choose the right solution.</p>
+            </div>
+            <div class="cta-buttons">
+                <a href="{% url 'contact' %}" class="btn btn-primary btn-lg">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

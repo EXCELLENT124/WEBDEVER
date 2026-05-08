@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us - SOFTWAP{% endblock %}
+{% block meta_description %}Contact SOFTWAP for professional website development services in South Africa. Get in touch for quotes, support, or general inquiries.{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="page-header-logo">
+            <img src="{% static 'images/logo3.png' %}" alt="SOFTWAP" height="100">
+        </div>
+        <h1 class="page-title">Contact Us</h1>
+        <nav class="breadcrumb">
+            <a href="{% url 'home' %}">Home</a>
+            <span>/</span>
+            <span>Contact</span>
+        </nav>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="section">
+    <div class="container">
+        <div class="contact-grid">
+            <!-- Contact Info -->
+            <div class="contact-info">
+                <span class="section-badge">Get In Touch</span>
+                <h2 class="section-title">Let's Discuss Your Project</h2>
+                <p class="contact-description">
+                    Have a question or ready to start your project? Fill out the form or use 
+                    the contact information below to reach us.
+                </p>
+                
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Email Us</h4>
+                            <a href="mailto:info@webdever.co.za">info@webdever.co.za</a>
+                            <p>For general inquiries and support</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Call Us</h4>
+                            <a href="tel:+27831234567">+27 83 123 4567</a>
+                            <p>Mon-Fri, 8AM - 6PM SAST</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Visit Us</h4>
+                            <p>123 Main Street, Sandton<br>Johannesburg, South Africa</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Working Hours</h4>
+                            <p>Monday - Friday: 8AM - 6PM<br>Saturday: 9AM - 2PM</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-social">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Form -->
+            <div class="contact-form-wrapper">
+                <div class="form-card">
+                    <h3 class="form-title">Send Us a Message</h3>
+                    <form method="post" class="contact-form">
+                        {% csrf_token %}
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                {{ form.name.label_tag }}
+                                {{ form.name }}
+                                {% if form.name.errors %}
+                                <div class="form-error">{{ form.name.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group">
+                                {{ form.email.label_tag }}
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                <div class="form-error">{{ form.email.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.phone.label_tag }}
+                            {{ form.phone }}
+                            {% if form.phone.errors %}
+                            <div class="form-error">{{ form.phone.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.subject.label_tag }}
+                            {{ form.subject }}
+                            {% if form.subject.errors %}
+                            <div class="form-error">{{ form.subject.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.message.label_tag }}
+                            {{ form.message }}
+                            {% if form.message.errors %}
+                            <div class="form-error">{{ form.message.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-lg btn-full">
+                            <span>Send Message</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="section section-dark">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">FAQ</span>
+            <h2 class="section-title">Frequently Asked Questions</h2>
+        </div>
+        
+        <div class="faq-grid">
+            <div class="faq-item">
+                <h4 class="faq-question"><i class="fas fa-question-circle"></i> How long does it take to build a website?</h4>
+                <p class="faq-answer">The timeline depends on the complexity of your project. Simple websites typically take 1-2 weeks, while e-commerce sites and custom applications may take 3-6 weeks. We'll provide a specific timeline during our consultation.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4 class="faq-question"><i class="fas fa-question-circle"></i> Do you require a deposit?</h4>
+                <p class="faq-answer">Yes, we typically require a 50% deposit to start work, with the remaining 50% due upon completion and before the website goes live. This ensures commitment from both parties.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4 class="faq-question"><i class="fas fa-question-circle"></i> What payment methods do you accept?</h4>
+                <p class="faq-answer">We accept EFT (Electronic Funds Transfer), credit/debit cards, and PayFast for secure online payments. We also accept installment plans for larger projects.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4 class="faq-question"><i class="fas fa-question-circle"></i> Do you provide hosting and domain registration?</h4>
+                <p class="faq-answer">Yes! We offer complete packages that include hosting, domain registration, and SSL certificates. You can also use your existing hosting if preferred.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4 class="faq-question"><i class="fas fa-question-circle"></i> Will my website be mobile-friendly?</h4>
+                <p class="faq-answer">Absolutely! Every website we build is fully responsive and optimized for all devices - desktop, tablet, and mobile phones.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4 class="faq-question"><i class="fas fa-question-circle"></i> Do you offer website maintenance?</h4>
+                <p class="faq-answer">Yes, we offer monthly maintenance packages starting from R599/month that include updates, backups, security monitoring, and technical support.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section cta-section">
+    <div class="container">
+        <div class="cta-box">
+            <div class="cta-content">
+                <h2>Ready to Start?</h2>
+                <p>Apply for your website today and get a free consultation!</p>
+            </div>
+            <div class="cta-buttons">
+                <a href="{% url 'apply' %}" class="btn btn-primary btn-lg">
+                    <span>Apply Now</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
