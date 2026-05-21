@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: webdever-project
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn webdever_project.wsgi:application"
+    envVars:
+      - key: DEBUG
+        value: False

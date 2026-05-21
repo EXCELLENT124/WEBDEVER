@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}{{ package.name }} - SOFTWAP{% endblock %}
+{% block meta_description %}{{ package.description }}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="page-header-logo">
+            <img src="{% static 'images/logo3.png' %}" alt="SOFTWAP" height="140">
+        </div>
+        <h1 class="page-title">{{ package.name }}</h1>
+        <nav class="breadcrumb">
+            <a href="{% url 'home' %}">Home</a>
+            <span>/</span>
+            <a href="{% url 'package_list' %}">Packages</a>
+            <span>/</span>
+            <span>{{ package.name }}</span>
+        </nav>
+    </div>
+</section>
+
+<!-- Package Details -->
+<section class="section">
+    <div class="container">
+        <div class="package-detail">
+            <div class="package-main">
+                <h2>{{ package.name }}</h2>
+                <p class="package-description">{{ package.description }}</p>
+                
+                <div class="package-pricing-large">
+                    <div class="price">R{{ package.calculate_total_price|floatformat:0|intcomma }}</div>
+                    {% if package.discount_percentage > 0 %}
+                    <div class="discount-info">Save {{ package.discount_percentage }}% with this package</div>
+                    {% endif %}
+                    {% if package.is_popular %}
+                    <div class="popular-label">Our Most Popular Choice</div>
+                    {% endif %}
+                </div>
+                
+                <a href="{% url 'apply' %}" class="btn btn-primary btn-lg">
+                    <span>Get This Package</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="package-includes">
+                <h3>What's Included</h3>
+                
+                <div class="include-item">
+                    <h4>Website Type</h4>
+                    <p><strong>{{ package.website_type.get_name_display }}</strong></p>
+                    <p>{{ package.website_type.description }}</p>
+                    <p class="price-range">{{ package.website_type.get_price_range }} ({{ package.website_type.estimated_days }} days)</p>
+                </div>
+                
+                {% if package.additional_services.exists %}
+                <div class="include-item">
+                    <h4>Additional Services</h4>
+                    <ul class="services-list">
+                        {% for service in package.additional_services.all %}
+                        <li>
+                            <strong>{{ service.get_name_display }}</strong> 
+                            <span class="service-price">(R{{ service.price|intcomma }}/{{ service.get_billing_cycle_display|lower }})</span>
+                            {% if service.features %}
+                            <ul class="features-list">
+                                {% for feature in service.get_feature_list %}
+                                <li><i class="fas fa-check"></i> {{ feature }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                
+                {% if package.website_type.get_feature_list %}
+                <div class="include-item">
+                    <h4>Website Features</h4>
+                    <ul>
+                        {% for feature in package.website_type.get_feature_list %}
+                        <li><i class="fas fa-check"></i> {{ feature }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section section-dark">
+    <div class="container">
+        <div class="cta-box">
+            <h3>Ready to Get Started?</h3>
+            <p>Let's build your perfect web solution with this package.</p>
+            <a href="{% url 'apply' %}" class="btn btn-primary btn-lg">
+                <span>Apply Now</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

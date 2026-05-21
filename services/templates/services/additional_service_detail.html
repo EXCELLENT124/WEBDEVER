@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}{{ service.get_name_display }} - SOFTWAP{% endblock %}
+{% block meta_description %}{{ service.description }}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="page-header-logo">
+            <img src="{% static 'images/logo3.png' %}" alt="SOFTWAP" height="140">
+        </div>
+        <h1 class="page-title">{{ service.get_name_display }}</h1>
+        <nav class="breadcrumb">
+            <a href="{% url 'home' %}">Home</a>
+            <span>/</span>
+            <a href="{% url 'additional_service_list' %}">Additional Services</a>
+            <span>/</span>
+            <span>{{ service.get_name_display }}</span>
+        </nav>
+    </div>
+</section>
+
+<!-- Service Details -->
+<section class="section">
+    <div class="container">
+        <div class="service-detail">
+            <div class="service-main">
+                <div class="service-icon-large">
+                    <i class="fas fa-{{ service.icon }}"></i>
+                </div>
+                <h2>{{ service.get_name_display }}</h2>
+                <p class="service-description">{{ service.description }}</p>
+                
+                <div class="service-pricing-large">
+                    <div class="price">R{{ service.price|intcomma }}</div>
+                    <div class="billing-cycle">{{ service.get_billing_cycle_display }}</div>
+                    {% if service.is_recommended %}
+                    <div class="recommended-label">Recommended</div>
+                    {% endif %}
+                    {% if service.is_required %}
+                    <div class="required-label">Required for all websites</div>
+                    {% endif %}
+                </div>
+                
+                <a href="{% url 'apply' %}" class="btn btn-primary btn-lg">
+                    <span>Add to Order</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="service-info">
+                {% if service.features %}
+                <div class="service-features">
+                    <h3>Features Included</h3>
+                    <ul>
+                        {% for feature in service.get_feature_list %}
+                        <li><i class="fas fa-check"></i> {{ feature }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                
+                {% if service.packages.exists %}
+                <div class="service-packages">
+                    <h3>Included in These Packages</h3>
+                    <ul>
+                        {% for package in service.packages.all %}
+                        <li>
+                            <a href="{% url 'package_detail' package.slug %}">{{ package.name }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section section-dark">
+    <div class="container">
+        <div class="cta-box">
+            <h3>Perfect for Your Project?</h3>
+            <p>Add this service to your order and enhance your web presence.</p>
+            <a href="{% url 'apply' %}" class="btn btn-primary btn-lg">
+                <span>Get Started</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -33,9 +33,20 @@ def additional_service_list_view(request):
     
     context = {
         'title': 'Additional Services',
-        'services': services,
+        'additional_services': services,
     }
     return render(request, 'services/additional_service_list.html', context)
+
+
+def additional_service_detail_view(request, slug):
+    """Detail view for a specific additional service."""
+    service = get_object_or_404(AdditionalService, slug=slug, is_active=True)
+    
+    context = {
+        'title': service.get_name_display(),
+        'service': service,
+    }
+    return render(request, 'services/additional_service_detail.html', context)
 
 
 def package_list_view(request):

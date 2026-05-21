@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Service Packages - SOFTWAP{% endblock %}
+{% block meta_description %}Explore our curated service packages. Complete web solutions tailored for different business needs.{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="page-header-logo">
+            <img src="{% static 'images/logo3.png' %}" alt="SOFTWAP" height="140">
+        </div>
+        <h1 class="page-title">Service Packages</h1>
+        <nav class="breadcrumb">
+            <a href="{% url 'home' %}">Home</a>
+            <span>/</span>
+            <span>Service Packages</span>
+        </nav>
+    </div>
+</section>
+
+<!-- Packages Grid -->
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">Complete Solutions</span>
+            <h2 class="section-title">Our Service Packages</h2>
+            <p class="section-description">
+                Pre-configured packages combining website types with essential additional services for complete web solutions.
+            </p>
+        </div>
+        
+        <div class="packages-grid">
+            {% for package in packages %}
+            <div class="package-card {% if package.is_popular %}popular{% endif %}">
+                {% if package.is_popular %}
+                <div class="popular-badge">Popular</div>
+                {% endif %}
+                <div class="package-header">
+                    <h3 class="package-name">{{ package.name }}</h3>
+                    <p class="package-description">{{ package.description }}</p>
+                </div>
+                
+                <div class="package-details">
+                    <div class="website-type">
+                        <strong>Website Type:</strong><br>
+                        {{ package.website_type.get_name_display }}
+                    </div>
+                    
+                    {% if package.additional_services.exists %}
+                    <div class="included-services">
+                        <strong>Includes:</strong>
+                        <ul>
+                            {% for service in package.additional_services.all %}
+                            <li><i class="fas fa-check"></i> {{ service.get_name_display }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="package-pricing">
+                        <div class="price">R{{ package.calculate_total_price|floatformat:0|intcomma }}</div>
+                        {% if package.discount_percentage > 0 %}
+                        <div class="discount">Save {{ package.discount_percentage }}%</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <a href="{% url 'package_detail' package.slug %}" class="btn btn-primary btn-block">
+                    View Package Details
+                </a>
+            </div>
+            {% empty %}
+            <div class="no-content">
+                <p>No packages available at the moment.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section section-dark">
+    <div class="container">
+        <div class="cta-box">
+            <h3>Need a Custom Package?</h3>
+            <p>Can't find the perfect package? Let's create a custom solution tailored to your specific needs.</p>
+            <a href="{% url 'apply' %}" class="btn btn-primary btn-lg">
+                <span>Request Custom Package</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

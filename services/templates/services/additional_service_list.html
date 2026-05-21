@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Additional Services - SOFTWAP{% endblock %}
+{% block meta_description %}Explore our additional services including hosting, domains, SSL certificates, and SEO. Complete solutions for your online presence.{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="page-header-logo">
+            <img src="{% static 'images/logo3.png' %}" alt="SOFTWAP" height="140">
+        </div>
+        <h1 class="page-title">Additional Services</h1>
+        <nav class="breadcrumb">
+            <a href="{% url 'home' %}">Home</a>
+            <span>/</span>
+            <span>Additional Services</span>
+        </nav>
+    </div>
+</section>
+
+<!-- Services Grid -->
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">Complete Solutions</span>
+            <h2 class="section-title">Additional Services & Features</h2>
+            <p class="section-description">
+                Enhance your website with our professional additional services. From hosting to SEO, we've got you covered.
+            </p>
+        </div>
+        
+        <div class="services-grid">
+            {% for service in additional_services %}
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-{{ service.icon }}"></i>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-name">{{ service.name }}</h3>
+                    <p class="service-description">{{ service.description }}</p>
+                    <div class="service-price">R{{ service.price|intcomma }}</div>
+                    <div class="service-features">
+                        <ul>
+                            {% for feature in service.get_feature_list %}
+                            <li><i class="fas fa-check"></i> {{ feature }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <a href="{% url 'additional_service_detail' service.slug %}" class="btn btn-secondary btn-sm">
+                        Learn More
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section section-dark">
+    <div class="container">
+        <div class="cta-box">
+            <h3>Need Custom Solutions?</h3>
+            <p>Combine multiple services for a complete web presence package tailored to your needs.</p>
+            <a href="{% url 'apply' %}" class="btn btn-primary btn-lg">
+                <span>Get Custom Quote</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

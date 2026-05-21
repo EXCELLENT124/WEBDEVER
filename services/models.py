@@ -85,6 +85,7 @@ class AdditionalService(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     billing_cycle = models.CharField(max_length=20, choices=BILLING_CYCLES, default='once')
     features = models.TextField(help_text="List features included, one per line", blank=True)
+    icon = models.CharField(max_length=50, default='cog')
     is_required = models.BooleanField(default=False, help_text="Required for all websites")
     is_recommended = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
