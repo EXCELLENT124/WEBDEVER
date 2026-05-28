@@ -2,8 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
+from django.template.loader import render_to_string          # <-- add this import
 from applications.forms import ContactForm
 from services.models import WebsiteType, AdditionalService, ServicePackage
+# Import your Order model (adjust the import path to your actual app)
+from orders.models import Order   # e.g. if your app is named 'orders'
 
 
 def home_view(request):
@@ -101,3 +104,47 @@ def pricing_view(request):
         'packages': packages,
     }
     return render(request, 'main/pricing.html', context)
+
+
+# ========== NEW: Order Confirmation View with Email ==========
+def place_order_view(request):
+    """Create an order and send confirmation email."""
+    if request.method == 'POST':
+        # --- Replace this block with your actual order creation logic ---
+        # Example: creating an order from form data (adjust field names)
+        customer_name = request.POST.get('name')
+        customer_email = request.POST.get('email')
+        service = ServicePackage.objects.get(id=request.POST.get('service_id'))
+        amount = request.POST.get('amount')
+        
+        order = Order.objects.create(
+            customer_name=customer_name,
+            customer_email=customer_email,
+            service=service,
+            amount=amount,
+            # Add other fields as needed
+        )
+        # ----------------------------------------------------------------
+
+        # Send order confirmation email
+        subject = f'Order #{order.id} - Confirmed'
+        html_message = render_to_string('emails/order_confirmed.html', {'order': order})
+        plain_message = f'Your order #{order.id} has been received and is being processed.'
+
+        try:
+            send_mail(
+                subject,
+                plain_message,
+                settings.DEFAULT_FROM_EMAIL,
+                [order.customer_email],        # ensure Order model has customer_email field
+                html_message=html_message,
+                fail_silently=False,
+            )
+            messages.success(request, 'Order placed successfully! A confirmation email has been sent.')
+        except Exception as e:
+            messages.error(request, f'Order saved but email could not be sent: {str(e)}')
+
+        return redirect('home')  # change to your success URL
+
+    # If not POST, render order form (optional)
+    return render(request, 'orders/place_order.html')  # create this template or adjust
