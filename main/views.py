@@ -6,7 +6,7 @@ from django.template.loader import render_to_string          # <-- add this impo
 from applications.forms import ContactForm
 from services.models import WebsiteType, AdditionalService, ServicePackage
 # Import your Order model (adjust the import path to your actual app)
-from orders.models import Order   # e.g. if your app is named 'orders'
+ # e.g. if your app is named 'orders'
 
 
 def home_view(request):
