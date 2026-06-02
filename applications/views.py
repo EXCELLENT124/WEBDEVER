@@ -3,154 +3,253 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from django.db import transaction
+
 from .models import WebsiteApplication, ApplicationMessage
 from .forms import WebsiteApplicationForm, ApplicationMessageForm
-from services.models import WebsiteType, AdditionalService
+
+from services.models import WebsiteType, AdditionalService, MobileAppType
 
 
+# =========================================
+# WEBSITE APPLICATION VIEW
+# =========================================
 def apply_view(request):
     """Website application form view."""
+
     website_types = WebsiteType.objects.filter(is_active=True)
     additional_services = AdditionalService.objects.filter(is_active=True)
-    
+
     if request.method == 'POST':
         form = WebsiteApplicationForm(request.POST)
+
         if form.is_valid():
             try:
                 with transaction.atomic():
                     application = form.save()
-                    
-                    # Send confirmation email to customer
+
+                    # CUSTOMER EMAIL
                     subject = f'Website Application Received - {application.project_title}'
                     message = f"""
-Dear {application.first_name},
+Hi {application.first_name},
 
-Thank you for submitting your website application to SOFTWAP!
+Thank you for submitting your website application.
 
-We have received your request for:
-Project: {application.project_title}
-Website Type: {application.website_type.get_name_display()}
-Estimated Budget: {application.get_estimated_total_display()}
-
-Our team will review your application and contact you within 24-48 hours with a detailed quote.
-
-If you have any questions, please reply to this email or contact us directly.
-
-Best regards,
-The SOFTWAP Team
-"""
-                    
-                    send_mail(
-                        subject=subject,
-                        message=message,
-                        from_email=settings.DEFAULT_FROM_EMAIL,
-                        recipient_list=[application.email],
-                        fail_silently=True,
-                    )
-                    
-                    # Send notification to admin
-                    admin_subject = f'New Website Application: {application.project_title}'
-                    admin_message = f"""
-New website application received:
-
-Client: {application.get_full_name()}
-Email: {application.email}
-Phone: {application.phone}
 Project: {application.project_title}
 Type: {application.website_type.get_name_display()}
-Estimated Price: {application.get_estimated_total_display()}
 
-View in admin: {request.build_absolute_uri('/admin/applications/websiteapplication/')}
+We will contact you within 24–48 hours.
+
+Regards,
+Team
 """
-                    
+
                     send_mail(
-                        subject=admin_subject,
-                        message=admin_message,
-                        from_email=settings.DEFAULT_FROM_EMAIL,
-                        recipient_list=[settings.DEFAULT_FROM_EMAIL],
+                        subject,
+                        message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        [application.email],
                         fail_silently=True,
                     )
-                    
-                    messages.success(request, 'Your application has been submitted successfully! We will contact you within 24-48 hours.')
+
+                    # ADMIN EMAIL
+                    admin_subject = f'New Website Application: {application.project_title}'
+                    admin_message = f"""
+New WEBSITE application received:
+
+Name: {application.first_name} {application.last_name}
+Email: {application.email}
+Phone: {application.phone}
+
+Project: {application.project_title}
+Type: {application.website_type.get_name_display()}
+"""
+
+                    send_mail(
+                        admin_subject,
+                        admin_message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        [settings.DEFAULT_FROM_EMAIL],
+                        fail_silently=True,
+                    )
+
+                    messages.success(request, 'Website application submitted successfully!')
                     return redirect('application_success', application_id=application.id)
+
             except Exception as e:
-                messages.error(request, f'Error submitting application: {str(e)}. Please try again.')
+                messages.error(request, f'Error submitting application: {str(e)}')
+
     else:
         form = WebsiteApplicationForm()
-    
-    context = {
+
+    return render(request, 'applications/apply.html', {
         'title': 'Apply for a Website',
         'form': form,
         'website_types': website_types,
         'additional_services': additional_services,
-    }
-    return render(request, 'applications/apply.html', context)
+        'application_type': 'website'
+    })
 
 
+# =========================================
+# MOBILE APPLICATION VIEW (FIXED)
+# =========================================
+def apply_mobile_view(request):
+    """Mobile application form view."""
+
+    mobile_types = MobileAppType.objects.filter(is_active=True)
+
+    if request.method == 'POST':
+        form = WebsiteApplicationForm(request.POST)  # FIX: using unified model
+
+        if form.is_valid():
+            try:
+                with transaction.atomic():
+                    application = form.save(commit=False)
+                    application.application_type = 'mobile'
+                    application.save()
+                    form.save_m2m()
+
+                    # CUSTOMER EMAIL
+                    subject = f'Mobile App Application Received - {application.project_title}'
+                    message = f"""
+Hi {application.first_name},
+
+Thank you for submitting your mobile app request.
+
+Project: {application.project_title}
+App Type: {application.mobile_app_type}
+
+We will contact you within 24–48 hours.
+
+Regards,
+Team
+"""
+
+                    send_mail(
+                        subject,
+                        message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        [application.email],
+                        fail_silently=True,
+                    )
+
+                    # ADMIN EMAIL
+                    admin_subject = f'New Mobile App Application: {application.project_title}'
+                    admin_message = f"""
+New MOBILE application received:
+
+Name: {application.first_name} {application.last_name}
+Email: {application.email}
+Phone: {application.phone}
+
+Project: {application.project_title}
+App Type: {application.mobile_app_type}
+"""
+
+                    send_mail(
+                        admin_subject,
+                        admin_message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        [settings.DEFAULT_FROM_EMAIL],
+                        fail_silently=True,
+                    )
+
+                    messages.success(request, 'Mobile application submitted successfully!')
+                    return redirect('application_success', application_id=application.id)
+
+            except Exception as e:
+                messages.error(request, f'Error submitting application: {str(e)}')
+
+    else:
+        form = WebsiteApplicationForm()
+
+    return render(request, 'applications/apply_mobile.html', {
+        'title': 'Apply for Mobile Application',
+        'form': form,
+        'mobile_types': mobile_types,
+        'application_type': 'mobile'
+    })
+
+
+# =========================================
+# SUCCESS VIEW
+# =========================================
 def application_success_view(request, application_id):
-    """Success page after application submission."""
     application = get_object_or_404(WebsiteApplication, id=application_id)
-    
-    context = {
+
+    return render(request, 'applications/success.html', {
         'title': 'Application Submitted',
         'application': application,
-    }
-    return render(request, 'applications/success.html', context)
+    })
 
 
+# =========================================
+# STATUS VIEW
+# =========================================
 def application_status_view(request, application_id):
-    """View application status and details."""
     application = get_object_or_404(WebsiteApplication, id=application_id)
-    
+
     if request.method == 'POST':
         message_form = ApplicationMessageForm(request.POST)
+
         if message_form.is_valid():
             message = message_form.save(commit=False)
             message.application = application
             message.save()
-            messages.success(request, 'Your message has been sent.')
+
+            messages.success(request, 'Message sent successfully.')
             return redirect('application_status', application_id=application.id)
+
     else:
         message_form = ApplicationMessageForm()
-    
-    messages_list = application.messages.all()
-    
-    context = {
-        'title': f'Application Status - {application.project_title}',
+
+    return render(request, 'applications/status.html', {
+        'title': f'Status - {application.project_title}',
         'application': application,
-        'messages': messages_list,
+        'messages': application.messages.all(),
         'message_form': message_form,
-    }
-    return render(request, 'applications/status.html', context)
+    })
 
 
+# =========================================
+# AJAX DATA
+# =========================================
 def services_ajax_data(request):
-    """AJAX endpoint to get all services data for dynamic pricing."""
-    import json
-    
-    website_types_data = []
-    for wt in WebsiteType.objects.filter(is_active=True):
-        website_types_data.append({
+    website_types_data = [
+        {
             'id': wt.id,
             'name': wt.get_name_display(),
-            'slug': wt.slug,
             'min_price': float(wt.min_price),
             'max_price': float(wt.max_price),
             'price_range': wt.get_price_range(),
-            'estimated_days': wt.estimated_days,
-        })
-    
-    services_data = []
-    for service in AdditionalService.objects.filter(is_active=True):
-        services_data.append({
-            'id': service.id,
-            'name': service.get_name_display(),
-            'price': float(service.price),
-            'billing_cycle': service.get_billing_cycle_display(),
-            'price_display': service.get_price_display(),
-        })
-    
+            'days': wt.estimated_days,
+        }
+        for wt in WebsiteType.objects.filter(is_active=True)
+    ]
+
+    mobile_types_data = [
+        {
+            'id': mt.id,
+            'name': mt.name,
+            'min_price': float(mt.min_price),
+            'max_price': float(mt.max_price),
+            'days': mt.estimated_days,
+        }
+        for mt in MobileAppType.objects.filter(is_active=True)
+    ]
+
+    services_data = [
+        {
+            'id': s.id,
+            'name': s.get_name_display(),
+            'price': float(s.price),
+            'billing': s.get_billing_cycle_display(),
+        }
+        for s in AdditionalService.objects.filter(is_active=True)
+    ]
+
     return {
         'website_types': website_types_data,
+        'mobile_types': mobile_types_data,
         'additional_services': services_data,
     }

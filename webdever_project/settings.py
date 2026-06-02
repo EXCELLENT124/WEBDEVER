@@ -181,7 +181,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # =========================
-# DEFAULT PRIMARY KEY
+# D EFAULT PRIMARY KEY
 # =========================
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

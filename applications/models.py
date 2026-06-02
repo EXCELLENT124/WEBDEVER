@@ -3,7 +3,16 @@ from django.core.validators import RegexValidator, EmailValidator
 from services.models import WebsiteType, AdditionalService
 
 
+# ==============================
+# WEBSITE APPLICATION
+# ==============================
 class WebsiteApplication(models.Model):
+
+    APPLICATION_TYPE = [
+        ('website', 'Website'),
+        ('mobile', 'Mobile Application'),
+    ]
+
     STATUS_CHOICES = [
         ('pending', 'Pending Review'),
         ('under_review', 'Under Review'),
@@ -31,84 +40,127 @@ class WebsiteApplication(models.Model):
         ('custom', 'Custom Budget'),
     ]
 
+    # TYPE SWITCH (IMPORTANT)
+    application_type = models.CharField(
+        max_length=20,
+        choices=APPLICATION_TYPE,
+        default='website'
+    )
+
     # Personal Information
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField(validators=[EmailValidator()])
-    phone = models.CharField(max_length=20, validators=[
-        RegexValidator(
-            regex=r'^(\+27|0)[6-8][0-9]{8}$',
-            message='Enter a valid South African phone number'
-        )
-    ])
-    company_name = models.CharField(max_length=200, blank=True, help_text="Optional - for business websites")
-    
-    # Project Details
-    website_type = models.ForeignKey(WebsiteType, on_delete=models.CASCADE, related_name='applications')
+    phone = models.CharField(
+        max_length=20,
+        validators=[RegexValidator(regex=r'^(\+27|0)[6-8][0-9]{8}$')]
+    )
+    company_name = models.CharField(max_length=200, blank=True)
+
+    # WEBSITE TYPE (optional now)
+    website_type = models.ForeignKey(
+        WebsiteType,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='applications'
+    )
+
+    # MOBILE TYPE (NEW)
+    mobile_app_type = models.ForeignKey(
+        'MobileAppType',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='applications'
+    )
+
     project_title = models.CharField(max_length=200)
-    project_description = models.TextField(help_text="Describe what you need for your website")
-    
-    # Budget and Timeline
+    project_description = models.TextField()
+
     budget_range = models.CharField(max_length=20, choices=BUDGET_RANGES, default='custom')
-    preferred_timeline = models.PositiveIntegerField(help_text="Preferred completion time in days", blank=True, null=True)
-    
-    # Additional Services
-    additional_services = models.ManyToManyField(AdditionalService, blank=True, related_name='applications')
-    
-    # Design Preferences
-    design_preferences = models.TextField(blank=True, help_text="Color schemes, style preferences, examples of websites you like")
-    has_logo = models.BooleanField(default=False, help_text="Do you have a logo?")
-    has_content = models.BooleanField(default=False, help_text="Do you have content ready (text, images)?")
-    has_domain = models.BooleanField(default=False, help_text="Do you have a domain name registered?")
-    
-    # Additional Features
-    features_needed = models.TextField(blank=True, help_text="Specific features needed (e.g., contact form, gallery, booking system)")
-    
-    # Status and Tracking
+    preferred_timeline = models.PositiveIntegerField(blank=True, null=True)
+
+    additional_services = models.ManyToManyField(
+        AdditionalService,
+        blank=True,
+        related_name='applications'
+    )
+
+    design_preferences = models.TextField(blank=True)
+    has_logo = models.BooleanField(default=False)
+    has_content = models.BooleanField(default=False)
+    has_domain = models.BooleanField(default=False)
+
+    features_needed = models.TextField(blank=True)
+
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default='normal')
-    
-    # Admin fields
-    admin_notes = models.TextField(blank=True, help_text="Internal notes for staff")
+
+    admin_notes = models.TextField(blank=True)
     quoted_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    
-    # Timestamps
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    submitted_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-created_at']
-        verbose_name = 'Website Application'
-        verbose_name_plural = 'Website Applications'
-        indexes = [
-            models.Index(fields=['status', 'created_at']),
-            models.Index(fields=['email', 'status']),
-        ]
 
     def __str__(self):
-        return f"{self.project_title} - {self.first_name} {self.last_name}"
+        return f"{self.project_title} - {self.get_full_name()}"
 
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
 
-    def get_services_summary(self):
-        services = list(self.additional_services.filter(is_active=True))
-        if not services:
-            return "No additional services"
-        return ", ".join([s.get_name_display() for s in services])
-
     def get_estimated_total(self):
-        base = self.website_type.min_price
-        additional = sum(s.price for s in self.additional_services.filter(is_active=True))
+        if self.application_type == "website":
+            base = self.website_type.min_price if self.website_type else 0
+        else:
+            base = self.mobile_app_type.min_price if self.mobile_app_type else 0
+
+        additional = sum(
+            s.price for s in self.additional_services.filter(is_active=True)
+        )
+
         return base + additional
 
     def get_estimated_total_display(self):
         return f"R{self.get_estimated_total():,.0f}"
 
 
+# ==============================
+# MOBILE APP TYPE (KEEP THIS)
+# ==============================
+class MobileAppType(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(unique=True, blank=True)
+    description = models.TextField()
+    min_price = models.DecimalField(max_digits=10, decimal_places=2)
+    max_price = models.DecimalField(max_digits=10, decimal_places=2)
+    estimated_days = models.PositiveIntegerField()
+    icon = models.CharField(max_length=50, default='mobile')
+    is_active = models.BooleanField(default=True)
+    display_order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['display_order', 'name']
+
+    def __str__(self):
+        return self.name
+
+    def get_price_range(self):
+        return f"R{self.min_price:,.0f} - {self.max_price:,.0f}"
+
+
+# ==============================
+# MESSAGES
+# ==============================
 class ApplicationMessage(models.Model):
-    application = models.ForeignKey(WebsiteApplication, on_delete=models.CASCADE, related_name='messages')
+    application = models.ForeignKey(
+        WebsiteApplication,
+        on_delete=models.CASCADE,
+        related_name='messages'
+    )
     sender_name = models.CharField(max_length=200)
     sender_email = models.EmailField()
     message = models.TextField()
@@ -118,8 +170,6 @@ class ApplicationMessage(models.Model):
 
     class Meta:
         ordering = ['-created_at']
-        verbose_name = 'Application Message'
-        verbose_name_plural = 'Application Messages'
 
     def __str__(self):
-        return f"Message from {self.sender_name} on {self.created_at.strftime('%Y-%m-%d')}"
+        return f"Message from {self.sender_name}"
