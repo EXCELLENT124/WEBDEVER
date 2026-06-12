@@ -170,7 +170,7 @@
             <!-- Live Price Calculator -->
             <div class="price-calculator" id="price-calculator">
                 <h4><i class="fas fa-calculator"></i> Estimated Price</h4>
-                <p class="calculated-price" id="calculated-price">Select a website type to see estimate</p>
+                <p class="calculated-price" id="calculated-price">Select a project type to see estimate</p>
                 <p class="text-sm text-muted">Final price may vary based on specific requirements</p>
             </div>
             
@@ -231,14 +231,14 @@
                     <div class="form-group">
                         {{ form.website_type.label_tag }}
                         <select name="website_type" id="id_website_type" class="form-control form-select" required>
-                            <option value="" data-min="0" data-max="0">Select a website type...</option>
+                            <option value="" data-min="0" data-max="0">Select a project type...</option>
                             {% for wt in website_types %}
                             <option value="{{ wt.id }}" data-min="{{ wt.min_price }}" data-max="{{ wt.max_price }}">
                                 {{ wt.get_name_display }} - R{{ wt.min_price|intcomma }} to R{{ wt.max_price|intcomma }}
                             </option>
                             {% endfor %}
                         </select>
-                        <small class="form-help">Choose the type of website you need. Prices shown are estimates.</small>
+                        <small class="form-help">Choose the type of project you need. Prices shown are estimates.</small>
                         {% if form.website_type.errors %}
                         <div class="form-error">{{ form.website_type.errors }}</div>
                         {% endif %}
@@ -382,7 +382,7 @@
         const selectedType = websiteTypeSelect.value;
         let baseMin = 0;
         let baseMax = 0;
-        let typeName = 'Select a website type';
+        let typeName = 'Select a project type';
         
         if (selectedType && websitePrices[selectedType]) {
             baseMin = websitePrices[selectedType].min;
@@ -408,7 +408,7 @@
             }
             calculatedPriceEl.innerHTML = html;
         } else {
-            calculatedPriceEl.textContent = 'Select a website type to see estimate';
+            calculatedPriceEl.textContent = 'Select a project type to see estimate';
         }
     }
 
@@ -427,7 +427,7 @@
             const websiteType = document.getElementById('id_website_type').value;
             if (!websiteType) {
                 e.preventDefault();
-                alert('Please select a website type');
+                alert('Please select a project type');
                 return false;
             }
         });

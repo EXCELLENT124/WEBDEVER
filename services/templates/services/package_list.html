@@ -3,7 +3,8 @@
 {% load humanize %}
 
 {% block title %}Service Packages - SOFTWAP{% endblock %}
-{% block meta_description %}Explore our curated service packages. Complete web solutions tailored for different business needs.{% endblock %}
+{% block meta_description %}Explore our curated service packages. Complete web solutions tailored for different business
+needs.{% endblock %}
 
 {% block content %}
 <!-- Page Header -->
@@ -28,10 +29,11 @@
             <span class="section-badge">Complete Solutions</span>
             <h2 class="section-title">Our Service Packages</h2>
             <p class="section-description">
-                Pre-configured packages combining website types with essential additional services for complete web solutions.
+                Pre-configured packages combining website types with essential additional services for complete web
+                solutions.
             </p>
         </div>
-        
+
         <div class="packages-grid">
             {% for package in packages %}
             <div class="package-card {% if package.is_popular %}popular{% endif %}">
@@ -42,13 +44,13 @@
                     <h3 class="package-name">{{ package.name }}</h3>
                     <p class="package-description">{{ package.description }}</p>
                 </div>
-                
+
                 <div class="package-details">
                     <div class="website-type">
-                        <strong>Website Type:</strong><br>
+                        <strong>Website/Application Type:</strong><br>
                         {{ package.website_type.get_name_display }}
                     </div>
-                    
+
                     {% if package.additional_services.exists %}
                     <div class="included-services">
                         <strong>Includes:</strong>
@@ -59,7 +61,7 @@
                         </ul>
                     </div>
                     {% endif %}
-                    
+
                     <div class="package-pricing">
                         <div class="price">R{{ package.calculate_total_price|floatformat:0|intcomma }}</div>
                         {% if package.discount_percentage > 0 %}
@@ -67,7 +69,7 @@
                         {% endif %}
                     </div>
                 </div>
-                
+
                 <a href="{% url 'package_detail' package.slug %}" class="btn btn-primary btn-block">
                     View Package Details
                 </a>

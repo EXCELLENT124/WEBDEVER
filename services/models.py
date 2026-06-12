@@ -24,6 +24,10 @@ class WebsiteType(models.Model):
         ('nonprofit', 'Non-Profit/Charity Website'),
         ('corporate', 'Corporate Enterprise Website'),
         ('marketplace', 'Online Marketplace'),
+        ('starter_mobile_app', 'Starter Mobile App'),
+        ('business_mobile_app', 'Business Mobile App'),
+        ('ecommerce_mobile_app', 'E-commerce Mobile App'),
+        ('custom_mobile_app', 'Custom Mobile App'),
     ]
 
     name = models.CharField(max_length=50, choices=WEBSITE_CATEGORIES, unique=True)

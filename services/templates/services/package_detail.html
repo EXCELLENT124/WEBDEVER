@@ -30,7 +30,7 @@
             <div class="package-main">
                 <h2>{{ package.name }}</h2>
                 <p class="package-description">{{ package.description }}</p>
-                
+
                 <div class="package-pricing-large">
                     <div class="price">R{{ package.calculate_total_price|floatformat:0|intcomma }}</div>
                     {% if package.discount_percentage > 0 %}
@@ -40,31 +40,33 @@
                     <div class="popular-label">Our Most Popular Choice</div>
                     {% endif %}
                 </div>
-                
+
                 <a href="{% url 'apply' %}" class="btn btn-primary btn-lg">
                     <span>Get This Package</span>
                     <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
-            
+
             <div class="package-includes">
                 <h3>What's Included</h3>
-                
+
                 <div class="include-item">
-                    <h4>Website Type</h4>
+                    <h4>Website/Application Type</h4>
                     <p><strong>{{ package.website_type.get_name_display }}</strong></p>
                     <p>{{ package.website_type.description }}</p>
-                    <p class="price-range">{{ package.website_type.get_price_range }} ({{ package.website_type.estimated_days }} days)</p>
+                    <p class="price-range">{{ package.website_type.get_price_range }} ({{
+                        package.website_type.estimated_days }} days)</p>
                 </div>
-                
+
                 {% if package.additional_services.exists %}
                 <div class="include-item">
                     <h4>Additional Services</h4>
                     <ul class="services-list">
                         {% for service in package.additional_services.all %}
                         <li>
-                            <strong>{{ service.get_name_display }}</strong> 
-                            <span class="service-price">(R{{ service.price|intcomma }}/{{ service.get_billing_cycle_display|lower }})</span>
+                            <strong>{{ service.get_name_display }}</strong>
+                            <span class="service-price">(R{{ service.price|intcomma }}/{{
+                                service.get_billing_cycle_display|lower }})</span>
                             {% if service.features %}
                             <ul class="features-list">
                                 {% for feature in service.get_feature_list %}
@@ -77,7 +79,7 @@
                     </ul>
                 </div>
                 {% endif %}
-                
+
                 {% if package.website_type.get_feature_list %}
                 <div class="include-item">
                     <h4>Website Features</h4>

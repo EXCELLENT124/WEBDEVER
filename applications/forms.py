@@ -66,8 +66,8 @@ class WebsiteApplicationForm(forms.ModelForm):
             'class': 'form-control form-select',
             'required': 'required'
         }),
-        label='Website Type',
-        empty_label='Select a website type...'
+        label='Project Type',
+        empty_label='Select a project type...'
     )
 
     project_title = forms.CharField(
@@ -163,7 +163,7 @@ class WebsiteApplicationForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['price_estimate'].required = False
         self.fields['price_estimate'].initial = (
-            "Select a website type to see price estimate"
+            "Select a project type to see price estimate"
         )
 
 

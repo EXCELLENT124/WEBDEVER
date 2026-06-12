@@ -17,7 +17,8 @@
                 </div>
                 <h1 class="page-title">Application Submitted!</h1>
                 <p class="success-message">
-                    Thank you, <strong>{{ application.first_name }}</strong>! Your website application has been received successfully.
+                    Thank you, <strong>{{ application.first_name }}</strong>! Your website application has been received
+                    successfully.
                 </p>
             </div>
         </section>
@@ -30,7 +31,7 @@
                         <span class="value">{{ application.project_title }}</span>
                     </div>
                     <div class="summary-item">
-                        <span class="label">Website Type:</span>
+                        <span class="label">Website/Application Type:</span>
                         <span class="value">{{ application.website_type.get_name_display }}</span>
                     </div>
                     <div class="summary-item">
@@ -39,11 +40,12 @@
                     </div>
                     <div class="summary-item">
                         <span class="label">Status:</span>
-                        <span class="value status-badge status-{{ application.status }}">{{ application.get_status_display }}</span>
+                        <span class="value status-badge status-{{ application.status }}">{{
+                            application.get_status_display }}</span>
                     </div>
                 </div>
             </div>
-            
+
             <div class="next-steps">
                 <h3>What Happens Next?</h3>
                 <div class="steps-list">
@@ -70,7 +72,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="success-actions">
                 <a href="{% url 'home' %}" class="btn btn-primary btn-lg">
                     <i class="fas fa-home"></i> Back to Home
@@ -79,7 +81,7 @@
                     <i class="fas fa-tags"></i> View Pricing
                 </a>
             </div>
-            
+
             <div class="reference-number">
                 <p>Your reference number: <strong>WD-{{ application.id|stringformat:"06d" }}</strong></p>
                 <small>Please keep this number for your records</small>
