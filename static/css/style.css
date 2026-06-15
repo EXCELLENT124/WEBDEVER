@@ -1518,3 +1518,31 @@ body {
         font-size: 1.5rem;
     }
 }
+
+/* Fix dropdown/select theme */
+.form-control,
+.form-select,
+select.form-control,
+select.form-select {
+    background-color: var(--bg-glass) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border) !important;
+}
+
+/* Fix dropdown list options */
+.form-select option,
+select.form-control option,
+select.form-select option {
+    background-color: #12121a !important;
+    color: #ffffff !important;
+}
+
+/* Hover/focus look */
+.form-select:focus,
+select.form-control:focus,
+select.form-select:focus {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px hsla(var(--primary-hue), 80%, 60%, 0.2) !important;
+}
