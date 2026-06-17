@@ -1,7 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.core.mail import send_mail
-from django.conf import settings
 from django.db import transaction
 
 from .models import WebsiteApplication, ApplicationMessage
@@ -27,53 +25,8 @@ def apply_view(request):
                 with transaction.atomic():
                     application = form.save()
 
-                    # CUSTOMER EMAIL
-                    subject = f'Website Application Received - {application.project_title}'
-                    message = f"""
-Hi {application.first_name},
-
-Thank you for submitting your website application.
-
-Project: {application.project_title}
-Type: {application.website_type.get_name_display()}
-
-We will contact you within 24–48 hours.
-
-Regards,
-Team
-"""
-
-                    send_mail(
-                        subject,
-                        message,
-                        settings.DEFAULT_FROM_EMAIL,
-                        [application.email],
-                        fail_silently=True,
-                    )
-
-                    # ADMIN EMAIL
-                    admin_subject = f'New Website Application: {application.project_title}'
-                    admin_message = f"""
-New WEBSITE application received:
-
-Name: {application.first_name} {application.last_name}
-Email: {application.email}
-Phone: {application.phone}
-
-Project: {application.project_title}
-Type: {application.website_type.get_name_display()}
-"""
-
-                    send_mail(
-                        admin_subject,
-                        admin_message,
-                        settings.DEFAULT_FROM_EMAIL,
-                        [settings.DEFAULT_FROM_EMAIL],
-                        fail_silently=True,
-                    )
-
-                    messages.success(request, 'Website application submitted successfully!')
-                    return redirect('application_success', application_id=application.id)
+                messages.success(request, 'Website application submitted successfully!')
+                return redirect('application_success', application_id=application.id)
 
             except Exception as e:
                 messages.error(request, f'Error submitting application: {str(e)}')
@@ -91,7 +44,7 @@ Type: {application.website_type.get_name_display()}
 
 
 # =========================================
-# MOBILE APPLICATION VIEW (FIXED)
+# MOBILE APPLICATION VIEW
 # =========================================
 def apply_mobile_view(request):
     """Mobile application form view."""
@@ -99,7 +52,7 @@ def apply_mobile_view(request):
     mobile_types = MobileAppType.objects.filter(is_active=True)
 
     if request.method == 'POST':
-        form = WebsiteApplicationForm(request.POST)  # FIX: using unified model
+        form = WebsiteApplicationForm(request.POST)
 
         if form.is_valid():
             try:
@@ -109,53 +62,8 @@ def apply_mobile_view(request):
                     application.save()
                     form.save_m2m()
 
-                    # CUSTOMER EMAIL
-                    subject = f'Mobile App Application Received - {application.project_title}'
-                    message = f"""
-Hi {application.first_name},
-
-Thank you for submitting your mobile app request.
-
-Project: {application.project_title}
-App Type: {application.mobile_app_type}
-
-We will contact you within 24–48 hours.
-
-Regards,
-Team
-"""
-
-                    send_mail(
-                        subject,
-                        message,
-                        settings.DEFAULT_FROM_EMAIL,
-                        [application.email],
-                        fail_silently=True,
-                    )
-
-                    # ADMIN EMAIL
-                    admin_subject = f'New Mobile App Application: {application.project_title}'
-                    admin_message = f"""
-New MOBILE application received:
-
-Name: {application.first_name} {application.last_name}
-Email: {application.email}
-Phone: {application.phone}
-
-Project: {application.project_title}
-App Type: {application.mobile_app_type}
-"""
-
-                    send_mail(
-                        admin_subject,
-                        admin_message,
-                        settings.DEFAULT_FROM_EMAIL,
-                        [settings.DEFAULT_FROM_EMAIL],
-                        fail_silently=True,
-                    )
-
-                    messages.success(request, 'Mobile application submitted successfully!')
-                    return redirect('application_success', application_id=application.id)
+                messages.success(request, 'Mobile application submitted successfully!')
+                return redirect('application_success', application_id=application.id)
 
             except Exception as e:
                 messages.error(request, f'Error submitting application: {str(e)}')
