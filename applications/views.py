@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
 from django.db import transaction
 
 from .models import WebsiteApplication, ApplicationMessage
@@ -8,12 +10,27 @@ from .forms import WebsiteApplicationForm, ApplicationMessageForm
 from services.models import WebsiteType, AdditionalService, MobileAppType
 
 
+def safe_send_mail(subject, message, recipient_list):
+    """
+    Send email safely.
+    If email fails, the website form must still submit successfully.
+    """
+    try:
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            recipient_list,
+            fail_silently=True,
+        )
+    except Exception:
+        pass
+
+
 # =========================================
 # WEBSITE APPLICATION VIEW
 # =========================================
 def apply_view(request):
-    """Website application form view."""
-
     website_types = WebsiteType.objects.filter(is_active=True)
     additional_services = AdditionalService.objects.filter(is_active=True)
 
@@ -24,6 +41,46 @@ def apply_view(request):
             try:
                 with transaction.atomic():
                     application = form.save()
+
+                subject = f'Website Application Received - {application.project_title}'
+                message = f"""
+Hi {application.first_name},
+
+Thank you for submitting your website application.
+
+Project: {application.project_title}
+Type: {application.website_type}
+
+We will contact you within 24–48 hours.
+
+Regards,
+SOFTWAP Team
+"""
+
+                safe_send_mail(
+                    subject,
+                    message,
+                    [application.email]
+                )
+
+                admin_subject = f'New Website Application: {application.project_title}'
+                admin_message = f"""
+New WEBSITE application received:
+
+Name: {application.first_name} {application.last_name}
+Email: {application.email}
+Phone: {application.phone}
+
+Project: {application.project_title}
+Type: {application.website_type}
+Budget: {application.budget_range}
+"""
+
+                safe_send_mail(
+                    admin_subject,
+                    admin_message,
+                    [settings.DEFAULT_FROM_EMAIL]
+                )
 
                 messages.success(request, 'Website application submitted successfully!')
                 return redirect('application_success', application_id=application.id)
@@ -47,8 +104,6 @@ def apply_view(request):
 # MOBILE APPLICATION VIEW
 # =========================================
 def apply_mobile_view(request):
-    """Mobile application form view."""
-
     mobile_types = MobileAppType.objects.filter(is_active=True)
 
     if request.method == 'POST':
@@ -61,6 +116,45 @@ def apply_mobile_view(request):
                     application.application_type = 'mobile'
                     application.save()
                     form.save_m2m()
+
+                subject = f'Mobile App Application Received - {application.project_title}'
+                message = f"""
+Hi {application.first_name},
+
+Thank you for submitting your mobile application request.
+
+Project: {application.project_title}
+Budget: {application.budget_range}
+
+We will contact you within 24–48 hours.
+
+Regards,
+SOFTWAP Team
+"""
+
+                safe_send_mail(
+                    subject,
+                    message,
+                    [application.email]
+                )
+
+                admin_subject = f'New Mobile App Application: {application.project_title}'
+                admin_message = f"""
+New MOBILE application received:
+
+Name: {application.first_name} {application.last_name}
+Email: {application.email}
+Phone: {application.phone}
+
+Project: {application.project_title}
+Budget: {application.budget_range}
+"""
+
+                safe_send_mail(
+                    admin_subject,
+                    admin_message,
+                    [settings.DEFAULT_FROM_EMAIL]
+                )
 
                 messages.success(request, 'Mobile application submitted successfully!')
                 return redirect('application_success', application_id=application.id)
