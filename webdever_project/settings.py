@@ -9,10 +9,8 @@ import os
 import dj_database_url
 from dotenv import load_dotenv
 
-# Load environment variables
 load_dotenv()
 
-# Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -46,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
 
-    # Custom apps
     'main',
     'services',
     'applications',
@@ -59,10 +56,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-
-    # WhiteNoise
     'whitenoise.middleware.WhiteNoiseMiddleware',
-
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -77,7 +71,6 @@ MIDDLEWARE = [
 # =========================
 
 ROOT_URLCONF = 'webdever_project.urls'
-
 WSGI_APPLICATION = 'webdever_project.wsgi.application'
 
 
@@ -88,19 +81,14 @@ WSGI_APPLICATION = 'webdever_project.wsgi.application'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-
         'DIRS': [BASE_DIR / 'templates'],
-
         'APP_DIRS': True,
-
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-
-                # Custom context processor
                 'services.context_processors.services_processor',
             ],
         },
@@ -146,11 +134,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # =========================
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
 
@@ -166,9 +151,7 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-STATICFILES_STORAGE = (
-    'whitenoise.storage.CompressedManifestStaticFilesStorage'
-)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # =========================
@@ -176,24 +159,26 @@ STATICFILES_STORAGE = (
 # =========================
 
 MEDIA_URL = '/media/'
-
 MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # =========================
-# D EFAULT PRIMARY KEY
+# DEFAULT PRIMARY KEY
 # =========================
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # =========================
-# EMAIL SETTINGS (SMTP)
+# EMAIL SETTINGS
 # =========================
+# Default is console backend so Render will not timeout on form submit.
+# To send real emails later, set EMAIL_BACKEND on Render to:
+# django.core.mail.backends.smtp.EmailBackend
 
 EMAIL_BACKEND = os.getenv(
     'EMAIL_BACKEND',
-    'django.core.mail.backends.smtp.EmailBackend'  # Default to SMTP in production
+    'django.core.mail.backends.console.EmailBackend'
 )
 
 EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
@@ -202,7 +187,12 @@ EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@softwap.co.za')
+DEFAULT_FROM_EMAIL = os.getenv(
+    'DEFAULT_FROM_EMAIL',
+    EMAIL_HOST_USER or 'noreply@softwap.co.za'
+)
+
+EMAIL_TIMEOUT = 5
 
 
 # =========================
@@ -218,5 +208,4 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
 
     SECURE_SSL_REDIRECT = True
-
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
