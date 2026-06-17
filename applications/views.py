@@ -12,19 +12,22 @@ from services.models import WebsiteType, AdditionalService, MobileAppType
 
 def safe_send_mail(subject, message, recipient_list):
     """
-    Send email safely.
-    If email fails, the website form must still submit successfully.
+    Testing version.
+    This will show the real email error in Render logs if email fails.
     """
-    try:
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            recipient_list,
-            fail_silently=True,
-        )
-    except Exception:
-        pass
+    print("EMAIL BACKEND:", settings.EMAIL_BACKEND)
+    print("EMAIL HOST:", settings.EMAIL_HOST)
+    print("EMAIL HOST USER:", settings.EMAIL_HOST_USER)
+    print("DEFAULT FROM EMAIL:", settings.DEFAULT_FROM_EMAIL)
+    print("EMAIL RECIPIENTS:", recipient_list)
+
+    send_mail(
+        subject,
+        message,
+        settings.DEFAULT_FROM_EMAIL,
+        recipient_list,
+        fail_silently=False,
+    )
 
 
 # =========================================
@@ -87,6 +90,7 @@ Budget: {application.budget_range}
 
             except Exception as e:
                 messages.error(request, f'Error submitting application: {str(e)}')
+                print("APPLICATION SUBMIT ERROR:", e)
 
     else:
         form = WebsiteApplicationForm()
@@ -161,6 +165,7 @@ Budget: {application.budget_range}
 
             except Exception as e:
                 messages.error(request, f'Error submitting application: {str(e)}')
+                print("MOBILE APPLICATION SUBMIT ERROR:", e)
 
     else:
         form = WebsiteApplicationForm()
